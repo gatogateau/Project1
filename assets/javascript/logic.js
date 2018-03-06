@@ -2,7 +2,7 @@
 
 
 // api key for youtube
-var apiYoutube= ;
+// var apiYoutube= ;
 
 
 // api key for googlemaps
