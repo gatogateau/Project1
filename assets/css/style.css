@@ -19,6 +19,7 @@
     color: white;
 }
 .jumbotron h1{
+    padding-top: 50px;
     text-align: center;
     color: black;
     text-shadow: 2px 2px white;
