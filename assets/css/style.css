@@ -1,5 +1,6 @@
 #weather {
     text-align: center;
+    height: 65px;
 }
 .weather {
     margin: 10px;
@@ -49,3 +50,4 @@
 .col-md-8 {
     margin-top: 20px;
 }
+
