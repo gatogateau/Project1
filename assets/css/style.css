@@ -1,17 +1,19 @@
 #weather {
     text-align: center;
 }
-
+.weather {
+    margin: 10px;
+}
 #motto {
-    width:50%;
+    width:100%;
 }
 
 #video {
-    width:50%;
+    width:100%;
 }
 
 #map {
-    width:50%;
+    width:100%;
 }
 
 .list-group-item.active {
@@ -19,6 +21,7 @@
     color: white;
 }
 .jumbotron h1{
+    margin-top: 10px;
     text-align: center;
     color: black;
     text-shadow: 2px 2px white;
@@ -42,4 +45,7 @@
     color: white;
     padding:10px;
     display: inline-block;
+}
+.col-md-8 {
+    margin-top: 20px;
 }

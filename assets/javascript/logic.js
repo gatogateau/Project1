@@ -17,6 +17,7 @@ var browserLatitude = 0;
             console.log("lati " + browserLatitude);
             console.log("long " + browserLongitude);
 
+
             // open weather map
             // http://api.openweathermap.org/data/2.5/uvi?appid={appid}&lat={lat}&lon={lon}x`x`
             // api documentation
@@ -101,8 +102,5 @@ var browserLatitude = 0;
 
 
         // set image for weather description
-
-
-
 
 
