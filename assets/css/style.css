@@ -22,7 +22,6 @@
 }
 .jumbotron h1{
     margin-top: 10px;
-    padding-top: 50px;
     text-align: center;
     color: black;
     text-shadow: 2px 2px white;
@@ -49,12 +48,4 @@
 }
 .col-md-8 {
     margin-top: 20px;
-}
-
-.zip {
-    margin-left: 8px;
-}
-
-.submit {
-    margin-bottom: 10px;
 }
