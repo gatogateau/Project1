@@ -49,3 +49,11 @@
 .col-md-8 {
     margin-top: 20px;
 }
+
+.modal-body {
+    background-image: url(./../images/modal.jpeg);
+}
+
+.modal-content {
+    background-color: black;
+}
