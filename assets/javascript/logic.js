@@ -118,5 +118,113 @@ console.log("hello");
 
 
         // set image for weather description
+// Code from Manju goes here
+
+var searchResults = [];
+
+$(document).on("click", "#subInput", function () {
+
+	console.log("Search button hit");
+	event.preventDefault();
+	var newSearch = $("#charInput").val().trim();
+	newSearch = newSearch.replace(/ /g, "%20");
+
+	console.log("Searching for " + newSearch);
+	// cartoons.push(newCartoon);
+	// renderButtons();
+	$("#charInput").val("");
+
+	var queryURL = "https://api.data.charitynavigator.org/v2/Organizations?app_id=09ceb587&app_key=a02d0e73a4f8e0d9c64bddca938d32ea&pageSize=10&search=" + newSearch + "&searchType=name_only&minRating=0&maxRating=4&categoryID=&causeID=";
+
+	$.ajax({
+		url: queryURL,
+		method: "GET"
+	}).then(function (response) {
+		var results = response;
+		console.log(results);
+		// ========================
+		$("#charList").empty();
+		$("#charDisplay").empty();
+
+		var heading = $("<h1>");
+		heading.html("Charities For You");
+		$("#charList").append(heading);
+
+		searchResults = [];
+		for (var i = 0; i < results.length; i++) {
+			var stringAddress1 = "";
+			if (results[i].mailingAddress.streetAddress1 !== null) {
+				stringAddress1 += results[i].mailingAddress.streetAddress1;
+			}
+			if (results[i].mailingAddress.streetAddress2 !== null) {
+				stringAddress1 += ", ";
+				stringAddress1 += results[i].mailingAddress.streetAddress2;
+			}
+
+			var stringAddress2 = results[i].mailingAddress.city + ", " + results[i].mailingAddress.stateOrProvince + " " + results[i].mailingAddress.postalCode;
+
+			var charitySummaryObject = {
+				ein: results[i].ein
+				, name: results[i].charityName
+				, rating: results[i].currentRating.ratingImage.large
+				, category: results[i].category.categoryName
+				, cause: results[i].cause.causeName
+				, tagline: results[i].tagLine
+				, addressLine1: stringAddress1
+				, addressLine2: stringAddress2
+			};
+
+			searchResults.push(charitySummaryObject);
+			console.log(charitySummaryObject);
+			localStorage.setItem("lsArray", JSON.stringify(searchResults));
+		}
+		console.log(searchResults);
+		populateSummary();
+
+	});
+
+});
+function populateSummary() {
+
+	$("#charList").empty();
+	$("#charDisplay").empty();
+
+	console.log("In populate summary. Length: " + searchResults.length);
+	console.log(searchResults);
+	for (var i = 0; i < searchResults.length; i++) {
+		console.log("inside pop summary " + i);
+		var charityHREF = $("<a href='#'>")
+		var charitySummary = $("<div>");
+		charitySummary.attr("id", "charity-div");
+		charitySummary.attr("data-ein", searchResults[i].ein);
+		var charityName = $("<p class='text-center'>");
+		charityName.text(searchResults[i].name);
+
+		var charityRating = $("<img>")
+		charityRating.attr("src", searchResults[i].rating);
+
+		var charityCategory = $("<p>");
+		charityCategory.text("Category: " + searchResults[i].category);
+
+		var charityCause = $("<p>");
+		charityCause.text("Cause: " + searchResults[i].cause);
+
+		var charityTag = $("<p>");
+		charityTag.text(searchResults[i].tagline);
+
+		var charityAddress = $("<p>");
+		charityAddress.html(searchResults[i].addressLine1 + "<br>" + searchResults[i].addressLine1);
+
+		charitySummary.append(charityName);
+		charitySummary.append(charityRating);
+		charitySummary.append(charityCategory);
+		charitySummary.append(charityCause);
+		charitySummary.append(charityTag);
+		charitySummary.append(charityAddress);
+		charityHREF.append(charitySummary);
+		$("#charList").append(charityHREF);
+
+	}
+}
 
 
