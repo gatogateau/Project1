@@ -57,13 +57,31 @@
 
 
 .modal-body {
-    background-image: url(./../images/modal.jpeg);
+    background-image: url(./../images/modal1.jpg);
+    
 }
 
 .modal-content {
     background-color: black;
 }
 
+
+.modal-footer {
+    background-color: black;
+    text-align: center;
+    margin-top: 0px;
+}
+
+.about-modal-pf 
+.modal-header.modal-header {
+    background-color: black;
+
+}
+#copy-right {
+    text-align: center;
+    color:white;
+}
+   
 .page-footer {
     border-radius: 5px;
     padding-top: 15px;
@@ -80,9 +98,12 @@
 
 .pullRight {
     text-align: right;
-    display: inline-block;
 }
 
 .submit {
     margin-top: 10px;
+
+#maps {
+    height: 400px;
+    width: 100%;
 }
