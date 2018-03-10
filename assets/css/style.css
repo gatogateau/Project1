@@ -73,3 +73,7 @@
     padding-right: 20px;
     margin-top: 20px;
 }
+#maps {
+    height: 400px;
+    width: 100%;
+}
