@@ -61,6 +61,7 @@
     background-color: black;
 }
 
+
 .modal-footer {
     background-color: black;
     text-align: center;
@@ -77,4 +78,16 @@
     color:white;
 }
    
+.page-footer {
+    border-radius: 5px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-size: medium;
+    color: rgb(158, 158, 158);
+    background-color: #333;
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 20px;
 }
