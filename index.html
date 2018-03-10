@@ -240,9 +240,18 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="assets/javascript/logic.js"></script>
-	<script 
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9BOR1LsCivhFAucA6QVKYnPderodAq7E&callback=initMap" async defer></script>
+	
+<!-- removing script tag from googlemap 1	 -->
+	<!-- <script 
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9BOR1LsCivhFAucA6QVKYnPderodAq7E&callback=initMap" async defer></script> -->
 
+
+	<!-- attempt to change the api to a searchable map -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9BOR1LsCivhFAucA6QVKYnPderodAq7E&libraries=places&callback=initAutocomplete"
+async defer>
+		// var ApiKey = "AIzaSyCH0OnqxeiT5vzRQSKGfvnC9Vkr60s630c";
+		// var api = "AIzaSyB9BOR1LsCivhFAucA6QVKYnPderodAq7E";
+</script>
 
 </body>
 
