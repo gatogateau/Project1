@@ -1,8 +1,9 @@
 #weather {
     text-align: center;
     height: 65px;
-   
+    background-size:100%;
 }
+
 .weather {
     margin: 10px;
 }
@@ -33,7 +34,7 @@
     margin-top: 10px;
     text-align: center;
     color: black;
-    text-shadow: 2px 2px white;
+		text-shadow: 2px 2px white;
 }
 #btnSearch {
     padding-bottom: 25px;
@@ -118,7 +119,23 @@
 .submit {
     margin-top: 10px;
 }
+
 #maps {
     height: 400px;
     width: 100%;
+}
+
+.jumbotron {
+	margin-left: 25px;
+	margin-right: 25px;
+	padding: 15px;
+}
+
+.map, .motto, .video {
+	margin-left: -35px;
+	margin-right: 25px;
+}
+
+.btn-lg {
+	display: block;
 }

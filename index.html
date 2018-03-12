@@ -56,7 +56,6 @@
 					</div>
 				</div>
 			</div>
-
 <!-- Navbar links to email and IRS donation forms -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
@@ -184,6 +183,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-5">
+<!--This is an empty div-->
 					</div>
 					<div class="col-md-7">
 						<button type="submit" id="subInput" class="btn btn-default submit">Submit</button>
@@ -196,14 +196,15 @@
 	<div class="row">
 		<div class="col-md-8">
 			<div class="jumbotron" id="charDisplay">
-				<h1>Charities For You</h1>
-				<div class="list-group" id="charList">
-					<a href="https://www.google.com/" class="list-group-item active" target="popup" onclick="window.open('http://google.com','popup','width=600,height=600'); return false;">
-						<h4 class="list-group-item-heading" id="chrtynm">Name of Charity</h4>
-						<p class="list-group-item-text" id="chrtyprps">Purpose of Charity</p>
-						<p class="list-group-item-text" id="chrtytl">Total $ earned by Charity</p>
-					</a>
-				</div>
+				<!-- Charity search results -->
+				<!-- <h1>Charities For You</h1> -->
+			</div>
+			<div class="jumbotron" id="charList">
+				<!-- <a href="https://www.google.com/" class="list-group-item active" target="popup" onclick="window.open('http://google.com','popup','width=600,height=600'); return false;">
+					<h4 class="list-group-item-heading" id="chrtynm">Name of Charity</h4>
+					<p class="list-group-item-text" id="chrtyprps">Purpose of Charity</p>
+					<p class="list-group-item-text" id="chrtytl">Total $ earned by Charity</p>
+				</a> -->
 			</div>
 		</div>
 <!--Aside content. Google Maps API contained here.  -->
@@ -239,14 +240,20 @@
 		</footer>
 	</div>
 
-
-
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script src="assets/javascript/logic.js"></script>
-		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9BOR1LsCivhFAucA6QVKYnPderodAq7E&callback=initMap" async
-		 defer></script>
+	
+<!-- removing script tag from googlemap 1	 -->
+	<!-- <script 
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9BOR1LsCivhFAucA6QVKYnPderodAq7E&callback=initMap" async defer></script> -->
 
+<!-- attempt to change the api to a searchable map -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9BOR1LsCivhFAucA6QVKYnPderodAq7E&libraries=places&callback=initAutocomplete"
+async defer>
+		// var ApiKey = "AIzaSyCH0OnqxeiT5vzRQSKGfvnC9Vkr60s630c";
+		// var api = "AIzaSyB9BOR1LsCivhFAucA6QVKYnPderodAq7E";
+</script>
 
 </body>
 
