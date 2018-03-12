@@ -28,7 +28,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-
+<!-- Modal linked to Jarvis Environmental Group in Navbar -->
 				<a class="navbar-brand" data-toggle="modal" data-target="#about-modal">Jarvis Environmental Group</a>
 				<div class="modal fade" id="about-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
@@ -39,32 +39,24 @@
 								</button>
 							</div>
 							<div class="modal-body">
-								<!-- <div class="modal-header"> -->
 								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 									<span class="pficon pficon-close"></span>
 								</button>
-								<!-- </div> -->
 								<h1>About Us</h1>
 								<div class="product-versions-pf">
 									<p>
 										We are a group of programming students
 									</p>
 								</div>
-								<!-- <div class="trademark-pf">
-                Trademark and Copyright Information -->
-								<!-- </div> -->
 							</div>
 							<div class="modal-footer">
-								<!-- <img src="/assets/images/icon.jpg" alt="Jarvis Symbol" id="icon" height="15" width="15">				 -->
 								<p id="copy-right">&copy; JEG 2018</p>
 							</div>
-
 						</div>
 					</div>
 				</div>
 			</div>
-
-			<!-- Collect the nav links, forms, and other content for toggling -->
+<!-- Navbar links to email and IRS donation forms -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li class="active">
@@ -76,23 +68,24 @@
 						<a href="https://www.irs.gov/taxtopics/tc506" target="_blank">Charitable Tax Deductions</a>
 					</li>
 				</ul>
-
 			</div>
 			<!-- /.navbar-collapse -->
 		</div>
 		<!-- /.container-fluid -->
 	</nav>
+<!-- API to dipslay local weather of user -->
 	<div class="row weather">
 		<div class="col-md-12">
-			<div id="weather">This is Where the Local Weather API will display</div>
+			<div id="weather"></div>
 		</div>
 	</div>
+<!-- Jumbotron holding all search buttons, text inputs and dropdown boxes -->
 	<div class="row">
 		<div class="col-md-12">
 			<div class="jumbotron" id="btnSearch">
 				<div class="row">
 					<div class="col-md-1">
-
+						<!-- This is an empty column -->
 					</div>
 					<div class="col-md-3 pullRight">
 						<input type="text" id="charInput" align="right" class="form-control" placeholder="Search Charity/Cause">
@@ -190,7 +183,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-5">
-
+<!--This is an empty div-->
 					</div>
 					<div class="col-md-7">
 						<button type="submit" id="subInput" class="btn btn-default submit">Submit</button>
@@ -199,6 +192,7 @@
 			</div>
 		</div>
 	</div>
+<!-- Jumbotron where Charities will display after collecting search inputs -->
 	<div class="row">
 		<div class="col-md-8">
 			<div class="jumbotron" id="charDisplay">
@@ -213,6 +207,7 @@
 				</a> -->
 			</div>
 		</div>
+<!--Aside content. Google Maps API contained here.  -->
 		<div class="col-md-4">
 			<div class="motto">
 				<h3>Changes made Together</h3>
@@ -222,56 +217,39 @@
 			</div>
 			<div class="map">
 				<h3>Change the World</h3>
-				<!-- changed div Id from map to maps -->
 				<div id="maps">
-
-					<img id="map" src="assets/images/map.jpg" alt="image of global map">
+					<!-- <img id="map" src="assets/images/map.jpg" alt="image of global map"> -->
 				</div>
 			</div>
 			<div class="video">
 				<h3>One Donation at a Time</h3>
 				<div id="video">
-					<img id="video" src="assets/images/video.png" alt="image of video play button">
+					<img id="video" src="assets/images/map.jpg" alt="image of video play button">
 				</div>
 			</div>
-
 		</div>
 	</div>
-
 	<div>
+<!--Footer  -->
 		<footer class="page-footer font-small blue pt-4 mt-4">
-
-			<!--Footer Links-->
 			<div class="container-fluid text-center text-md-left">
 				<div class="row">
-					<!--Copyright-->
 					<div class="footer-copyright py-3 text-center">
 						Powered by Charity Navigator
 					</div>
-					<!--/.Copyright-->
-
 		</footer>
-		</div>
+	</div>
 
-	
-	
-
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script src="assets/javascript/logic.js"></script>
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="assets/javascript/logic.js"></script>
 	
 <!-- removing script tag from googlemap 1	 -->
 	<!-- <script 
 	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9BOR1LsCivhFAucA6QVKYnPderodAq7E&callback=initMap" async defer></script> -->
 
-
-
-
-
-		
-
-	<!-- attempt to change the api to a searchable map -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9BOR1LsCivhFAucA6QVKYnPderodAq7E&libraries=places&callback=initAutocomplete"
+<!-- attempt to change the api to a searchable map -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9BOR1LsCivhFAucA6QVKYnPderodAq7E&libraries=places&callback=initAutocomplete"
 async defer>
 		// var ApiKey = "AIzaSyCH0OnqxeiT5vzRQSKGfvnC9Vkr60s630c";
 		// var api = "AIzaSyB9BOR1LsCivhFAucA6QVKYnPderodAq7E";

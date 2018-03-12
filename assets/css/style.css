@@ -3,9 +3,17 @@
     height: 65px;
     background-size:100%;
 }
+
 .weather {
     margin: 10px;
 }
+
+#weather h3 {
+    padding-top: 20px;
+    margin-top: -10px;
+    
+}
+
 #motto {
     width:100%;
 }
@@ -58,7 +66,8 @@
 
 
 .modal-body {
-    background-image: url(./../images/modal1.jpg);
+    background-image: url(./../images/modal2.jpg);
+    color: black;
     
 }
 
@@ -78,6 +87,12 @@
     background-color: black;
 
 }
+
+.about-modal-pf 
+.modal-body{
+    color: black;
+}
+
 #copy-right {
     text-align: center;
     color:white;
@@ -104,7 +119,8 @@
 .submit {
     margin-top: 10px;
 }
-#maps{
+
+#maps {
     height: 400px;
     width: 100%;
 }
@@ -120,6 +136,6 @@
 	margin-right: 25px;
 }
 
-.btn-lg{
+.btn-lg {
 	display: block;
 }
