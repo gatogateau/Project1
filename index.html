@@ -1,208 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<!-- <link rel="stylesheet" href="assets/css/skeleton.css"> -->
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/patternfly/3.24.0/css/patternfly.min.css">
-  	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/patternfly/3.24.0/css/patternfly-additions.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/patternfly/3.24.0/css/patternfly-additions.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	
+
 	<link rel="stylesheet" href="assets/css/style.css">
 	<title>Jarvis</title>
 
 </head>
+
 <body>
-<!-- Header with navbar -->
+	<!-- Header with navbar -->
 	<nav class="navbar navbar-inverse">
 		<div class="container-fluid">
-		  <!-- Brand and toggle get grouped for better mobile display -->
-		  <div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-			  <span class="sr-only">Toggle navigation</span>
-			  <span class="icon-bar"></span>
-			  <span class="icon-bar"></span>
-			  <span class="icon-bar"></span>
-			</button>
-			
-      <a class="navbar-brand" data-toggle="modal" data-target="#about-modal">Jarvis Environmental Group</a>
-      <div class="modal fade" id="about-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content about-modal-pf">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                <span class="pficon pficon-close"></span>
-              </button>
-            </div>
-            <div class="modal-body">
-								<!-- <div class="modal-header"> -->
-										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-											<span class="pficon pficon-close"></span>
-										</button>
-									<!-- </div> -->
-              <h1>About Us</h1>
-              <div class="product-versions-pf">
-								<p>
-									We are a group of programming students
-								</p>
-              </div>
-              <!-- <div class="trademark-pf">
-                Trademark and Copyright Information -->
-              <!-- </div> -->
-            </div>
-            <div class="modal-footer">
-								<!-- <img src="/assets/images/icon.jpg" alt="Jarvis Symbol" id="icon" height="15" width="15">				 -->
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+				 aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+<!-- Modal linked to Jarvis Environmental Group in Navbar -->
+				<a class="navbar-brand" data-toggle="modal" data-target="#about-modal">Jarvis Environmental Group</a>
+				<div class="modal fade" id="about-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content about-modal-pf">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+									<span class="pficon pficon-close"></span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+									<span class="pficon pficon-close"></span>
+								</button>
+								<h1>About Us</h1>
+								<div class="product-versions-pf">
+									<p>
+										We are a group of programming students
+									</p>
+								</div>
+							</div>
+							<div class="modal-footer">
 								<p id="copy-right">&copy; JEG 2018</p>
-						</div>
-						
-          </div>
-        </div>
-      </div>
-		  </div>
-	  
-		  <!-- Collect the nav links, forms, and other content for toggling -->
-		  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-			<ul class="nav navbar-nav">
-			  <li class="active"><a href="mailto:jarviseg@gmail.com?subject=Charities" >Email Us <span class="sr-only">(current)</span></a></li>
-			  <li><a href="https://www.irs.gov/taxtopics/tc506" target="_blank">Charitable Tax Deductions</a></li>
-			</ul>
-			
-		  </div><!-- /.navbar-collapse -->
-		</div><!-- /.container-fluid -->
-	</nav>
-	<div class="row weather">
-		<div class="col-md-12">
-			<div id="weather">This is Where the Local Weather API will display</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-12">
-				<div class="jumbotron" id="btnSearch">
-					<div class="row">
-						<div class="col-md-1">
-
-						</div>
-						<div class="col-md-3 pullRight">
-							<input type="text" id="charInput" align="right" class="form-control" placeholder="Search Charity/Cause">
-						</div>
-						<div class="col-md-2 pullRight">
-								<input type="radio" name="location" value="state" checked> State and/or City:
-						</div>
-						<div class="col-md-2">
-								<input type="text" name="city">
-						</div>
-						<div class="col-md-4">
-								<select>
-										<option value>All</option>
-										<option value="AK">AK</option>
-										<option value="AL">AL</option>
-										<option value="AR">AR</option>
-										<option value="AZ">AZ</option>
-										<option value="CA">CA</option>
-										<option value="CO">CO</option>
-										<option value="CT">CT</option>
-										<option value="DC">DC</option>
-										<option value="DE">DE</option>
-										<option value="FL">FL</option>
-										<option value="GA">GA</option>
-										<option value="HI">HI</option>
-										<option value="IA">IA</option>
-										<option value="ID">ID</option>
-										<option value="IL">IL</option>
-										<option value="IN">IN</option>
-										<option value="KS">KS</option>
-										<option value="KY">KY</option>
-										<option value="LA">LA</option>
-										<option value="MA">MA</option>
-										<option value="MD">MD</option>
-										<option value="ME">ME</option>
-										<option value="MI">MI</option>
-										<option value="MN">MN</option>
-										<option value="MO">MO</option>
-										<option value="MS">MS</option>
-										<option value="MT">MT</option>
-										<option value="NC">NC</option>
-										<option value="ND">ND</option>
-										<option value="NE">NE</option>
-										<option value="NH">NH</option>
-										<option value="NJ">NJ</option>
-										<option value="NM">NV</option>
-										<option value="NY">NY</option>
-										<option value="OH">OH</option>
-										<option value="OK">OK</option>
-										<option value="OR">OR</option>
-										<option value="PA">PA</option>
-										<option value="PR">PR</option>
-										<option value="RI">RI</option>
-										<option value="SC">SC</option>
-										<option value="SD">SD</option>
-										<option value="TN">TN</option>
-										<option value="TX">TX</option>
-										<option value="UT">UT</option>
-										<option value="VA">VA</option>
-										<option value="VI">VI</option>
-										<option value="VT">VT</option>
-										<option value="WA">WA</option>
-										<option value="WI">WI</option>
-										<option value="WV">WV</option>
-										<option value="WY">WY</option>
-						</select>
-						</div>
-					</div>
-					<div class="row">
-							<div class="col-md-4 pullRight">
-									<select>
-											<option value>All</option>
-											<option value="1">Animals</option>
-											<option value="2">Arts, Culture, Humanities</option>
-											<option value="10">Community Development</option>
-											<option value="3">Education</option>
-											<option value="4">Environment</option>
-											<option value="5">Health</option>
-											<option value="8">Human and Civil Rights</option>
-											<option value="6">Human Services</option>
-											<option value="7">International</option>
-											<option value="9">Religion</option>
-											<option value="11">Research and Public Policy</option>
-										</select>
-								</div>
-								<div class="col-md-2 pullRight">
-										<input type="radio" name="location" value="zip"> Zip:
-								</div>
-								<div class="col-md-2">
-										<input type="text" name="zip" class = "zip" disabled>
-								</div>
-								<div class="col-md-4">
-		
-								</div>
-					</div>
-					<div class="row">
-						<div class="col-md-5">
-
-						</div>
-						<div class="col-md-7">
-								<button type="submit" id="subInput" class="btn btn-default submit">Submit</button>
+							</div>
 						</div>
 					</div>
 				</div>
+			</div>
+
+<!-- Navbar links to email and IRS donation forms -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li class="active">
+						<a href="mailto:jarviseg@gmail.com?subject=Charities">Email Us
+							<span class="sr-only">(current)</span>
+						</a>
+					</li>
+					<li>
+						<a href="https://www.irs.gov/taxtopics/tc506" target="_blank">Charitable Tax Deductions</a>
+					</li>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
+<!-- API to dipslay local weather of user -->
+	<div class="row weather">
+		<div class="col-md-12">
+			<div id="weather"></div>
 		</div>
 	</div>
+<!-- Jumbotron holding all search buttons, text inputs and dropdown boxes -->
+	<div class="row">
+		<div class="col-md-12">
+			<div class="jumbotron" id="btnSearch">
+				<div class="row">
+					<div class="col-md-1">
+						<!-- This is an empty column -->
+					</div>
+					<div class="col-md-3 pullRight">
+						<input type="text" id="charInput" align="right" class="form-control" placeholder="Search Charity/Cause">
+					</div>
+					<div class="col-md-2 pullRight">
+						<input type="radio" name="location" value="state" checked> State and/or City:
+					</div>
+					<div class="col-md-2">
+						<input type="text" name="city">
+					</div>
+					<div class="col-md-4">
+						<select>
+							<option value>All</option>
+							<option value="AK">AK</option>
+							<option value="AL">AL</option>
+							<option value="AR">AR</option>
+							<option value="AZ">AZ</option>
+							<option value="CA">CA</option>
+							<option value="CO">CO</option>
+							<option value="CT">CT</option>
+							<option value="DC">DC</option>
+							<option value="DE">DE</option>
+							<option value="FL">FL</option>
+							<option value="GA">GA</option>
+							<option value="HI">HI</option>
+							<option value="IA">IA</option>
+							<option value="ID">ID</option>
+							<option value="IL">IL</option>
+							<option value="IN">IN</option>
+							<option value="KS">KS</option>
+							<option value="KY">KY</option>
+							<option value="LA">LA</option>
+							<option value="MA">MA</option>
+							<option value="MD">MD</option>
+							<option value="ME">ME</option>
+							<option value="MI">MI</option>
+							<option value="MN">MN</option>
+							<option value="MO">MO</option>
+							<option value="MS">MS</option>
+							<option value="MT">MT</option>
+							<option value="NC">NC</option>
+							<option value="ND">ND</option>
+							<option value="NE">NE</option>
+							<option value="NH">NH</option>
+							<option value="NJ">NJ</option>
+							<option value="NM">NV</option>
+							<option value="NY">NY</option>
+							<option value="OH">OH</option>
+							<option value="OK">OK</option>
+							<option value="OR">OR</option>
+							<option value="PA">PA</option>
+							<option value="PR">PR</option>
+							<option value="RI">RI</option>
+							<option value="SC">SC</option>
+							<option value="SD">SD</option>
+							<option value="TN">TN</option>
+							<option value="TX">TX</option>
+							<option value="UT">UT</option>
+							<option value="VA">VA</option>
+							<option value="VI">VI</option>
+							<option value="VT">VT</option>
+							<option value="WA">WA</option>
+							<option value="WI">WI</option>
+							<option value="WV">WV</option>
+							<option value="WY">WY</option>
+						</select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4 pullRight">
+						<select>
+							<option value>All</option>
+							<option value="1">Animals</option>
+							<option value="2">Arts, Culture, Humanities</option>
+							<option value="10">Community Development</option>
+							<option value="3">Education</option>
+							<option value="4">Environment</option>
+							<option value="5">Health</option>
+							<option value="8">Human and Civil Rights</option>
+							<option value="6">Human Services</option>
+							<option value="7">International</option>
+							<option value="9">Religion</option>
+							<option value="11">Research and Public Policy</option>
+						</select>
+					</div>
+					<div class="col-md-2 pullRight">
+						<input type="radio" name="location" value="zip"> Zip:
+					</div>
+					<div class="col-md-2">
+						<input type="text" name="zip" class="zip" disabled>
+					</div>
+					<div class="col-md-4">
+
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-5">
+					</div>
+					<div class="col-md-7">
+						<button type="submit" id="subInput" class="btn btn-default submit">Submit</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- Jumbotron where Charities will display after collecting search inputs -->
 	<div class="row">
 		<div class="col-md-8">
 			<div class="jumbotron" id="charDisplay">
-				<!-- Charity search results -->
 				<h1>Charities For You</h1>
 				<div class="list-group" id="charList">
-					<a href="https://www.google.com/" class="list-group-item active" target="popup" 
-					onclick="window.open('http://google.com','popup','width=600,height=600'); return false;">
+					<a href="https://www.google.com/" class="list-group-item active" target="popup" onclick="window.open('http://google.com','popup','width=600,height=600'); return false;">
 						<h4 class="list-group-item-heading" id="chrtynm">Name of Charity</h4>
-					  <p class="list-group-item-text" id="chrtyprps">Purpose of Charity</p>
-					  <p class="list-group-item-text" id="chrtytl">Total $ earned by Charity</p>
+						<p class="list-group-item-text" id="chrtyprps">Purpose of Charity</p>
+						<p class="list-group-item-text" id="chrtytl">Total $ earned by Charity</p>
 					</a>
 				</div>
 			</div>
 		</div>
+<!--Aside content. Google Maps API contained here.  -->
 		<div class="col-md-4">
 			<div class="motto">
 				<h3>Changes made Together</h3>
@@ -212,44 +216,36 @@
 			</div>
 			<div class="map">
 				<h3>Change the World</h3>
-			 <!-- changed div Id from map to maps -->
-				<div id = "maps">
-				
-					<img id="map" src="assets/images/map.jpg" alt="image of global map">
-				</div>				
+				<div id="maps">
+					<!-- <img id="map" src="assets/images/map.jpg" alt="image of global map"> -->
+				</div>
 			</div>
 			<div class="video">
 				<h3>One Donation at a Time</h3>
-				<div id ="video">
-				<img id="video" src="assets/images/video.png" alt="image of video play button">
+				<div id="video">
+					<img id="video" src="assets/images/map.jpg" alt="image of video play button">
 				</div>
 			</div>
-
 		</div>
 	</div>
-
 	<div>
-				<footer class="page-footer font-small blue pt-4 mt-4">
+<!--Footer  -->
+		<footer class="page-footer font-small blue pt-4 mt-4">
+			<div class="container-fluid text-center text-md-left">
+				<div class="row">
+					<div class="footer-copyright py-3 text-center">
+						Powered by Charity Navigator
+					</div>
+		</footer>
+	</div>
 
-						<!--Footer Links-->
-						<div class="container-fluid text-center text-md-left">
-								<div class="row">
-						<!--Copyright-->
-						<div class="footer-copyright py-3 text-center">
-								Powered by Charity Navigator
-						</div>
-						<!--/.Copyright-->
-				
-				</footer>
-		</div>
-	
-	
 
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script src="assets/javascript/logic.js"></script>
-	<script 
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9BOR1LsCivhFAucA6QVKYnPderodAq7E&callback=initMap" async defer></script>
+
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="assets/javascript/logic.js"></script>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9BOR1LsCivhFAucA6QVKYnPderodAq7E&callback=initMap" async
+		 defer></script>
 
 
 </body>
