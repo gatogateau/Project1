@@ -151,3 +151,8 @@
 .btn-lg {
 	display: block;
 }
+
+p.dropdownMenu {
+    display: inline-block;
+    font-size: 12px;
+}

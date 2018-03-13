@@ -100,7 +100,9 @@ var longi = -72.740;
 
 // added variable for google search
 
+
 function initAutocomplete() {
+
 
     var longvalue = 44.352;
 var latvalue = -72.740;
@@ -138,6 +140,7 @@ $.ajax({
 
 
  
+
 
     // Create the search box and link it to the UI element.
     // address id should be pac-input
@@ -202,77 +205,108 @@ $.ajax({
         });
         map.fitBounds(bounds);
     });
+
 }
 
 // set image for weather description
 // Code from Manju goes here
 
 var searchResults = [];
+var charityAppId = "";
+var charityApiKey = "";
+
+var config = {
+	apiKey: "AIzaSyDI4LjuGplq3orXgSY25y8QJntcnOPlNbo",
+	authDomain: "jarvis-in-class.firebaseapp.com",
+	databaseURL: "https://jarvis-in-class.firebaseio.com",
+	projectId: "jarvis-in-class",
+	storageBucket: "jarvis-in-class.appspot.com",
+	messagingSenderId: "864119021655"
+};
+
+firebase.initializeApp(config);
+
+// Create a variable to reference the database.
+var database = firebase.database();
 
 window.onload = function () {
-    searchResults = JSON.parse(localStorage.getItem("lsArray"));
-    console.log(searchResults);
-    $("#charList").empty();
-    $("#charDisplay").empty();
-    populateSummary();
+
+	database.ref().on("value", function (childSnapshot) {
+
+		// console.log(childSnapshot.val());
+		// console.log(childSnapshot.val().charityAppId, childSnapshot.val().charityApiKey);
+		charityAppId = childSnapshot.val().charityAppId;
+		charityApiKey = childSnapshot.val().charityApiKey;
+		// console.log(childSnapshot.val().charityAppId, childSnapshot.val().charityApiKey);
+	});
+
+	searchResults = JSON.parse(localStorage.getItem("lsArray"));
+	console.log(searchResults);
+	$("#charList").empty();
+	$("#charDisplay").empty();
+	populateSummary();
+
 };
+
 
 $(document).on("click", "#subInput", function () {
 
-    console.log("Search button hit");
-    event.preventDefault();
-    var newSearch = $("#charInput").val().trim();
-    newSearch = newSearch.replace(/ /g, "%20");
 
-    console.log("Searching for " + newSearch);
-    // cartoons.push(newCartoon);
-    // renderButtons();
-    $("#charInput").val("");
+	// console.log("Search button hit");
+	event.preventDefault();
+	var newSearch = $("#charInput").val().trim();
+	newSearch = newSearch.replace(/ /g, "%20");
 
-    var queryURL = "https://api.data.charitynavigator.org/v2/Organizations?app_id=09ceb587&app_key=a02d0e73a4f8e0d9c64bddca938d32ea&pageSize=10&search=" + newSearch + "&searchType=name_only&minRating=0&maxRating=4&categoryID=&causeID=";
+	// console.log("Searching for " + newSearch);
+	// cartoons.push(newCartoon);
+	// renderButtons();
+	$("#charInput").val("");
 
-    $.ajax({
-        url: queryURL,
-        method: "GET"
-    }).then(function (response) {
-        var results = response;
-        console.log(results);
-        // ========================
-        $("#charList").empty();
-        $("#charDisplay").empty();
+	var queryURL = "https://api.data.charitynavigator.org/v2/Organizations?app_id=" + charityAppId + "&app_key=" + charityApiKey + "&pageSize=10&search=" + newSearch + "&searchType=name_only&minRating=0&maxRating=4&categoryID=&causeID=";
 
-        searchResults = [];
-        for (var i = 0; i < results.length; i++) {
-            var stringAddress1 = "";
-            if (results[i].mailingAddress.streetAddress1 !== null) {
-                stringAddress1 += results[i].mailingAddress.streetAddress1;
-            }
-            if (results[i].mailingAddress.streetAddress2 !== null) {
-                stringAddress1 += ", ";
-                stringAddress1 += results[i].mailingAddress.streetAddress2;
-            }
+	$.ajax({
+		url: queryURL,
+		method: "GET"
+	}).then(function (response) {
+		var results = response;
+		console.log(results);
+		// ========================
+		$("#charList").empty();
+		$("#charDisplay").empty();
 
-            var stringAddress2 = results[i].mailingAddress.city + ", " + results[i].mailingAddress.stateOrProvince + " " + results[i].mailingAddress.postalCode;
+		searchResults = [];
+		for (var i = 0; i < results.length; i++) {
+			var stringAddress1 = "";
+			if (results[i].mailingAddress.streetAddress1 !== null) {
+				stringAddress1 += results[i].mailingAddress.streetAddress1;
+			}
+			if (results[i].mailingAddress.streetAddress2 !== null) {
+				stringAddress1 += ", ";
+				stringAddress1 += results[i].mailingAddress.streetAddress2;
+			}
 
-            var charitySummaryObject = {
-                ein: results[i].ein
-                , name: results[i].charityName
-                , rating: results[i].currentRating.ratingImage.large
-                , category: results[i].category.categoryName
-                , cause: results[i].cause.causeName
-                , tagline: results[i].tagLine
-                , addressLine1: stringAddress1
-                , addressLine2: stringAddress2
-            };
+			var stringAddress2 = results[i].mailingAddress.city + ", " + results[i].mailingAddress.stateOrProvince + " " + results[i].mailingAddress.postalCode;
 
-            searchResults.push(charitySummaryObject);
-            console.log(charitySummaryObject);
-            localStorage.setItem("lsArray", JSON.stringify(searchResults));
-        }
-        console.log(searchResults);
-        populateSummary();
+			var charitySummaryObject = {
+				ein: results[i].ein
+				, name: results[i].charityName
+				, rating: results[i].currentRating.ratingImage.large
+				, category: results[i].category.categoryName
+				, cause: results[i].cause.causeName
+				, tagline: results[i].tagLine
+				, addressLine1: stringAddress1
+				, addressLine2: stringAddress2
+			};
 
-    });
+			searchResults.push(charitySummaryObject);
+			console.log(charitySummaryObject);
+			localStorage.setItem("lsArray", JSON.stringify(searchResults));
+		}
+		console.log(searchResults);
+		populateSummary();
+
+	});
+
 
 });
 function populateSummary() {
