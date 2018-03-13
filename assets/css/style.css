@@ -24,7 +24,18 @@
 
 #map {
     width:100%;
+    height: 400px;
 }
+
+#maps {
+    height: 400px;
+    width: 100%;
+}
+
+/* .maps {
+    height: 400px;
+    width: 100%;
+} */
 
 .list-group-item.active {
     background-color: black;
