@@ -55,7 +55,7 @@ function showPosition(position) {
         // send information to HTML 
         // $("#temp").html("<h3>Temperature is " + temp + " fahrenheit</h3>");
         // $("#wind").html("<h3>The wind speed is " + wind + " mph </h3>");
-        $("#weather").html("<h3>Temperature: " + temp + " | Weather description: " + weatherDesc +
+        $("#weather").html("<h3 id='weatherText'>Temperature: " + temp + " | Weather description: " + weatherDesc +
             " | Wind Speed: " + wind + " mph</h3>");
     });
 

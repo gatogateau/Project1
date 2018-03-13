@@ -3,6 +3,10 @@
     height: 65px;
     background-size:100%;
 }
+#weatherText {
+    margin-top: -11px;
+    padding-top: 13px;
+}
 .weather {
     margin: 10px;
 }
@@ -104,6 +108,7 @@
 .submit {
     margin-top: 10px;
 
+}
 #maps {
     height: 400px;
     width: 100%;
