@@ -12,6 +12,7 @@ function getLocation() {
 }
 
 function showPosition(position) {
+
 	browserLatitude = position.coords.latitude;
 	browserLongitude = position.coords.longitude;
 	console.log("lati " + browserLatitude);
@@ -58,6 +59,7 @@ function showPosition(position) {
 		$("#weather").html("<h3>Temperature: " + temp + " | Weather description: " + weatherDesc +
 			" | Wind Speed: " + wind + " mph</h3>");
 	});
+
 
 }
 
