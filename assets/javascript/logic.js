@@ -91,8 +91,8 @@ currenthour();
 console.log(sunset);
 
 
-var lati=44.352;
-var longi=-72.740;
+var lati = 44.352;
+var longi = -72.740;
 
 // get address to Latitude and Longitude
 
@@ -110,14 +110,14 @@ var longi=-72.740;
 //     var marker = new google.maps.Marker({
 //         position: uluru,
 //         map: map
- 
+
 //     });
 
 //     console.log(map);
 // }
 
 // console.log("hello");
-        // google map api.  input zip code and get google image, and/or add full address for image
+// google map api.  input zip code and get google image, and/or add full address for image
 
 // set image for day/night
 
@@ -127,9 +127,9 @@ var longi=-72.740;
 
 function initAutocomplete() {
 	var map = new google.maps.Map(document.getElementById('maps'), {
-			center: { lat: 44.352, lng: -72.740 },
-			zoom: 8,
-			mapTypeId: 'roadmap'
+		center: { lat: 44.352, lng: -72.740 },
+		zoom: 8,
+		mapTypeId: 'roadmap'
 	});
 
 	// Create the search box and link it to the UI element.
@@ -140,56 +140,56 @@ function initAutocomplete() {
 
 	// Bias the SearchBox results towards current map's viewport.
 	map.addListener('bounds_changed', function () {
-			searchBox.setBounds(map.getBounds());
+		searchBox.setBounds(map.getBounds());
 	});
 
 	var markers = [];
 	// Listen for the event fired when the user selects a prediction and retrieve
 	// more details for that place.
 	searchBox.addListener('places_changed', function () {
-			var places = searchBox.getPlaces();
+		var places = searchBox.getPlaces();
 
-			if (places.length == 0) {
-					return;
+		if (places.length == 0) {
+			return;
+		}
+
+		// Clear out the old markers.
+		markers.forEach(function (marker) {
+			marker.setMap(null);
+		});
+		markers = [];
+
+		// For each place, get the icon, name and location.
+		var bounds = new google.maps.LatLngBounds();
+		places.forEach(function (place) {
+			if (!place.geometry) {
+				console.log("Returned place contains no geometry");
+				return;
 			}
+			var icon = {
+				url: place.icon,
+				size: new google.maps.Size(71, 71),
+				origin: new google.maps.Point(0, 0),
+				anchor: new google.maps.Point(17, 34),
+				scaledSize: new google.maps.Size(25, 25)
+			};
 
-			// Clear out the old markers.
-			markers.forEach(function (marker) {
-					marker.setMap(null);
-			});
-			markers = [];
+			// Create a marker for each place.
+			markers.push(new google.maps.Marker({
+				map: map,
+				icon: icon,
+				title: place.name,
+				position: place.geometry.location
+			}));
 
-			// For each place, get the icon, name and location.
-			var bounds = new google.maps.LatLngBounds();
-			places.forEach(function (place) {
-					if (!place.geometry) {
-							console.log("Returned place contains no geometry");
-							return;
-					}
-					var icon = {
-							url: place.icon,
-							size: new google.maps.Size(71, 71),
-							origin: new google.maps.Point(0, 0),
-							anchor: new google.maps.Point(17, 34),
-							scaledSize: new google.maps.Size(25, 25)
-					};
-
-					// Create a marker for each place.
-					markers.push(new google.maps.Marker({
-							map: map,
-							icon: icon,
-							title: place.name,
-							position: place.geometry.location
-					}));
-
-					if (place.geometry.viewport) {
-							// Only geocodes have viewport.
-							bounds.union(place.geometry.viewport);
-					} else {
-							bounds.extend(place.geometry.location);
-					}
-			});
-			maps.fitBounds(bounds);
+			if (place.geometry.viewport) {
+				// Only geocodes have viewport.
+				bounds.union(place.geometry.viewport);
+			} else {
+				bounds.extend(place.geometry.location);
+			}
+		});
+		maps.fitBounds(bounds);
 	});
 }
 
@@ -197,8 +197,33 @@ function initAutocomplete() {
 // Code from Manju goes here
 
 var searchResults = [];
+var charityAppId = "";
+var charityApiKey = "";
+
+var config = {
+	apiKey: "AIzaSyDI4LjuGplq3orXgSY25y8QJntcnOPlNbo",
+	authDomain: "jarvis-in-class.firebaseapp.com",
+	databaseURL: "https://jarvis-in-class.firebaseio.com",
+	projectId: "jarvis-in-class",
+	storageBucket: "jarvis-in-class.appspot.com",
+	messagingSenderId: "864119021655"
+};
+
+firebase.initializeApp(config);
+
+// Create a variable to reference the database.
+var database = firebase.database();
 
 window.onload = function () {
+	database.ref().on("value", function (childSnapshot) {
+
+		// console.log(childSnapshot.val());
+		// console.log(childSnapshot.val().charityAppId, childSnapshot.val().charityApiKey);
+		charityAppId = childSnapshot.val().charityAppId;
+		charityApiKey = childSnapshot.val().charityApiKey;
+		// console.log(childSnapshot.val().charityAppId, childSnapshot.val().charityApiKey);
+	});
+
 	searchResults = JSON.parse(localStorage.getItem("lsArray"));
 	console.log(searchResults);
 	$("#charList").empty();
@@ -206,19 +231,20 @@ window.onload = function () {
 	populateSummary();
 };
 
+
 $(document).on("click", "#subInput", function () {
 
-	console.log("Search button hit");
+	// console.log("Search button hit");
 	event.preventDefault();
 	var newSearch = $("#charInput").val().trim();
 	newSearch = newSearch.replace(/ /g, "%20");
 
-	console.log("Searching for " + newSearch);
+	// console.log("Searching for " + newSearch);
 	// cartoons.push(newCartoon);
 	// renderButtons();
 	$("#charInput").val("");
 
-	var queryURL = "https://api.data.charitynavigator.org/v2/Organizations?app_id=09ceb587&app_key=a02d0e73a4f8e0d9c64bddca938d32ea&pageSize=10&search=" + newSearch + "&searchType=name_only&minRating=0&maxRating=4&categoryID=&causeID=";
+	var queryURL = "https://api.data.charitynavigator.org/v2/Organizations?app_id=" + charityAppId + "&app_key=" + charityApiKey + "&pageSize=10&search=" + newSearch + "&searchType=name_only&minRating=0&maxRating=4&categoryID=&causeID=";
 
 	$.ajax({
 		url: queryURL,
