@@ -92,13 +92,13 @@
 						<input type="text" id="charInput" align="right" class="form-control" placeholder="Search Charity/Cause">
 					</div>
 					<div class="col-md-2 pullRight">
-						<input type="radio" name="location" value="state" checked> State and/or City:
+						<input type="radio" id="charRadioLoc" name="location" value="state" checked> State and/or City:
 					</div>
 					<div class="col-md-2">
-						<input type="text" name="city">
+						<input type="text" id="charLocCity" name="city">
 					</div>
 					<div class="col-md-4">
-						<select>
+						<select id="charLocState">
 							<option value>All</option>
 							<option value="AK">AK</option>
 							<option value="AL">AL</option>
@@ -157,7 +157,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-4 pullRight">
-						<select>
+						<select id="categoryID">
 							<option value>All</option>
 							<option value="1">Animals</option>
 							<option value="2">Arts, Culture, Humanities</option>
@@ -173,10 +173,10 @@
 						</select>
 					</div>
 					<div class="col-md-2 pullRight">
-						<input type="radio" name="location" value="zip"> Zip:
+						<input type="radio" id="charRadioZip" name="location" value="zip"> Zip:
 					</div>
 					<div class="col-md-2">
-						<input type="text" name="zip" class="zip" disabled>
+						<input type="text" id="charLocZip" name="zip" class="zip" disabled>
 					</div>
 					<div class="col-md-4">
 

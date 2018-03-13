@@ -199,6 +199,7 @@ function initAutocomplete() {
 var searchResults = [];
 var charityAppId = "";
 var charityApiKey = "";
+var charityAddressGlobal = "";
 
 var config = {
 	apiKey: "AIzaSyDI4LjuGplq3orXgSY25y8QJntcnOPlNbo",
@@ -225,12 +226,27 @@ window.onload = function () {
 	});
 
 	searchResults = JSON.parse(localStorage.getItem("lsArray"));
-	console.log(searchResults);
+	// console.log(searchResults);
 	$("#charList").empty();
 	$("#charDisplay").empty();
 	populateSummary();
 };
 
+$(document).on("click", "#charRadioLoc", function () {
+	// console.log("Radio button selected for location");
+	$("#charLocZip").attr("disabled", "true");
+	$("#charLocZip").val("");
+	$("#charLocCity").removeAttr("disabled");
+	$("#charLocState").removeAttr("disabled");
+});
+
+$(document).on("click", "#charRadioZip", function () {
+	// console.log("Radio button selected for zip");
+	$("#charLocZip").removeAttr("disabled");
+	$("#charLocCity").attr("disabled", "true");
+	$("#charLocState").attr("disabled", "true");
+	$("#charLocCity").val("");
+});
 
 $(document).on("click", "#subInput", function () {
 
@@ -239,17 +255,67 @@ $(document).on("click", "#subInput", function () {
 	var newSearch = $("#charInput").val().trim();
 	newSearch = newSearch.replace(/ /g, "%20");
 
+	var queryURL = "https://api.data.charitynavigator.org/v2/Organizations?app_id=" + charityAppId + "&app_key=" + charityApiKey + "&pageSize=20&search=" + newSearch + "&searchType=name_only&rated=true";
+	console.log(queryURL);
+	// &categoryID=&causeID=
+	var radioValue = $('input[name=location]:checked').val();
+	console.log(radioValue);
+
+	if (radioValue === "state") {
+		console.log($("#charLocCity").val().trim());
+		if ($("#charLocCity").val()) {
+			var charCity = $("#charLocCity").val().trim();
+			charCity = charCity.replace(/ /g, "%20");
+			queryURL = queryURL + "&city=" + charCity;
+			console.log(queryURL);
+		}
+		if ($("#charLocState :selected").val()) {
+			var charState = $("#charLocState :selected").val();
+			queryURL = queryURL + "&state=" + charState;
+			console.log(queryURL);
+		}
+	} else {
+		if (radioValue === "zip") {
+			console.log($("#charLocZip").val().trim());
+			if($("#charLocZip").val()){
+				var charZip = $("#charLocZip").val().trim();
+				queryURL = queryURL + "&zip=" + charZip;
+				console.log(queryURL);
+			}
+		}
+	}
+
+	if($("#categoryID :selected").val()){
+		var charCategoryID = $("#categoryID :selected").val();
+		queryURL = queryURL + "&categoryID=" + charCategoryID;
+		console.log(queryURL);
+	}
+
+	console.log("Category: " + $("#categoryID :selected").val());
+	console.log("State: " + $("#charLocState :selected").val());
 	// console.log("Searching for " + newSearch);
 	// cartoons.push(newCartoon);
 	// renderButtons();
 	$("#charInput").val("");
 
-	var queryURL = "https://api.data.charitynavigator.org/v2/Organizations?app_id=" + charityAppId + "&app_key=" + charityApiKey + "&pageSize=10&search=" + newSearch + "&searchType=name_only&minRating=0&maxRating=4&categoryID=&causeID=";
+
 
 	$.ajax({
 		url: queryURL,
-		method: "GET"
-	}).then(function (response) {
+		method: "GET",
+		error: function (response){
+			// console.log("Error response");
+			var results = response; 
+			// console.log(results);
+			// console.log(results.status);
+			searchResults = [];
+			$("#charDisplay").html("<h2>" + results.responseJSON.errorMessage + "</h2>");
+			// console.log(results.responseJSON.errorMessage);
+			$("#charList").empty();
+			localStorage.setItem("lsArray", JSON.stringify(searchResults));
+		}
+	})
+	.then(function (response) {
 		var results = response;
 		console.log(results);
 		// ========================
@@ -281,14 +347,14 @@ $(document).on("click", "#subInput", function () {
 			};
 
 			searchResults.push(charitySummaryObject);
-			console.log(charitySummaryObject);
+			// console.log(charitySummaryObject);
 			localStorage.setItem("lsArray", JSON.stringify(searchResults));
 		}
-		console.log(searchResults);
+		// console.log(searchResults);
 		populateSummary();
-
-	});
-
+	})
+;
+	
 });
 function populateSummary() {
 
@@ -302,7 +368,7 @@ function populateSummary() {
 	// console.log("In populate summary. Length: " + searchResults.length);
 	// console.log(searchResults);
 	for (var i = 0; i < searchResults.length; i++) {
-		console.log("inside pop summary " + i);
+		// console.log("inside pop summary " + i);
 		var charityHREF = $("<a href='#'>")
 		var charitySummary = $("<div>");
 		charitySummary.attr("id", "charity-div");
@@ -350,7 +416,7 @@ $(document).on("click", "#charity-div", function () {
 	var ein = $(this).attr("data-ein");
 	console.log(ein);
 
-	queryURL = "https://api.data.charitynavigator.org/v2/Organizations/" + ein + "?app_id=09ceb587&app_key=a02d0e73a4f8e0d9c64bddca938d32ea";
+	queryURL = "https://api.data.charitynavigator.org/v2/Organizations/" + ein + "?app_id=" + charityAppId + "&app_key=" + charityApiKey;
 
 	console.log(queryURL);
 
@@ -420,11 +486,16 @@ $(document).on("click", "#charity-div", function () {
 			stringAddress1 += response.mailingAddress.streetAddress2;
 		}
 
+
 		charityAddress.html(stringAddress1 + "<br>" + response.mailingAddress.city + ", " + response.mailingAddress.stateOrProvince + " " + response.mailingAddress.postalCode);
 		detailsDiv.append(charityAddress);
 		newLine(detailsDiv, 2);
 
+		charityAddressGlobal = stringAddress1 + ", " + response.mailingAddress.city + ", " + response.mailingAddress.stateOrProvince +
+			" " + response.mailingAddress.postalCode;
 
+		charityAddressGlobal = charityAddressGlobal.replace(/ /g, "+");
+		console.log(charityAddressGlobal);
 		var charityURL = $("<a>");
 		charityURL.attr("href", response.websiteURL);
 		charityURL.attr("target", "_blank");
@@ -449,6 +520,7 @@ $(document).on("click", "#charity-div", function () {
 		backToSearchResults.attr("id", "search-results");
 		backToSearchResults.html("<h3> Back to Search Results </h3>");
 		$("#charDisplay").append(backToSearchResults);
+
 	});
 });
 
