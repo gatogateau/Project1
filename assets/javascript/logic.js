@@ -214,6 +214,7 @@ $.ajax({
 var searchResults = [];
 var charityAppId = "";
 var charityApiKey = "";
+var charityAddressGlobal = "";
 
 var config = {
 	apiKey: "AIzaSyDI4LjuGplq3orXgSY25y8QJntcnOPlNbo",
@@ -241,13 +242,28 @@ window.onload = function () {
 	});
 
 	searchResults = JSON.parse(localStorage.getItem("lsArray"));
-	console.log(searchResults);
+	// console.log(searchResults);
 	$("#charList").empty();
 	$("#charDisplay").empty();
 	populateSummary();
 
 };
 
+$(document).on("click", "#charRadioLoc", function () {
+	// console.log("Radio button selected for location");
+	$("#charLocZip").attr("disabled", "true");
+	$("#charLocZip").val("");
+	$("#charLocCity").removeAttr("disabled");
+	$("#charLocState").removeAttr("disabled");
+});
+
+$(document).on("click", "#charRadioZip", function () {
+	// console.log("Radio button selected for zip");
+	$("#charLocZip").removeAttr("disabled");
+	$("#charLocCity").attr("disabled", "true");
+	$("#charLocState").attr("disabled", "true");
+	$("#charLocCity").val("");
+});
 
 $(document).on("click", "#subInput", function () {
 
@@ -257,17 +273,67 @@ $(document).on("click", "#subInput", function () {
 	var newSearch = $("#charInput").val().trim();
 	newSearch = newSearch.replace(/ /g, "%20");
 
+	var queryURL = "https://api.data.charitynavigator.org/v2/Organizations?app_id=" + charityAppId + "&app_key=" + charityApiKey + "&pageSize=20&search=" + newSearch + "&searchType=name_only&rated=true";
+	console.log(queryURL);
+	// &categoryID=&causeID=
+	var radioValue = $('input[name=location]:checked').val();
+	console.log(radioValue);
+
+	if (radioValue === "state") {
+		console.log($("#charLocCity").val().trim());
+		if ($("#charLocCity").val()) {
+			var charCity = $("#charLocCity").val().trim();
+			charCity = charCity.replace(/ /g, "%20");
+			queryURL = queryURL + "&city=" + charCity;
+			console.log(queryURL);
+		}
+		if ($("#charLocState :selected").val()) {
+			var charState = $("#charLocState :selected").val();
+			queryURL = queryURL + "&state=" + charState;
+			console.log(queryURL);
+		}
+	} else {
+		if (radioValue === "zip") {
+			console.log($("#charLocZip").val().trim());
+			if($("#charLocZip").val()){
+				var charZip = $("#charLocZip").val().trim();
+				queryURL = queryURL + "&zip=" + charZip;
+				console.log(queryURL);
+			}
+		}
+	}
+
+	if($("#categoryID :selected").val()){
+		var charCategoryID = $("#categoryID :selected").val();
+		queryURL = queryURL + "&categoryID=" + charCategoryID;
+		console.log(queryURL);
+	}
+
+	console.log("Category: " + $("#categoryID :selected").val());
+	console.log("State: " + $("#charLocState :selected").val());
 	// console.log("Searching for " + newSearch);
 	// cartoons.push(newCartoon);
 	// renderButtons();
 	$("#charInput").val("");
 
-	var queryURL = "https://api.data.charitynavigator.org/v2/Organizations?app_id=" + charityAppId + "&app_key=" + charityApiKey + "&pageSize=10&search=" + newSearch + "&searchType=name_only&minRating=0&maxRating=4&categoryID=&causeID=";
+
 
 	$.ajax({
 		url: queryURL,
-		method: "GET"
-	}).then(function (response) {
+		method: "GET",
+		error: function (response){
+			// console.log("Error response");
+			var results = response; 
+			// console.log(results);
+			// console.log(results.status);
+			searchResults = [];
+			$("#charDisplay").html("<h2>" + results.responseJSON.errorMessage + "</h2>");
+			// console.log(results.responseJSON.errorMessage);
+			$("#charList").empty();
+			localStorage.setItem("lsArray", JSON.stringify(searchResults));
+		}
+	})
+	.then(function (response) {
 		var results = response;
 		console.log(results);
 		// ========================
@@ -299,63 +365,62 @@ $(document).on("click", "#subInput", function () {
 			};
 
 			searchResults.push(charitySummaryObject);
-			console.log(charitySummaryObject);
+			// console.log(charitySummaryObject);
 			localStorage.setItem("lsArray", JSON.stringify(searchResults));
 		}
-		console.log(searchResults);
+		// console.log(searchResults);
 		populateSummary();
-
-	});
-
-
+	})
+;
+	
 });
 function populateSummary() {
 
-    var charList = $("#charList");
+	var charList = $("#charList");
 
-    if (searchResults.length > 0) {
-        var heading = $("<h1>");
-        heading.html("Charities For You");
-        $("#charList").append(heading);
-    }
-    // console.log("In populate summary. Length: " + searchResults.length);
-    // console.log(searchResults);
-    for (var i = 0; i < searchResults.length; i++) {
-        console.log("inside pop summary " + i);
-        var charityHREF = $("<a href='#'>")
-        var charitySummary = $("<div>");
-        charitySummary.attr("id", "charity-div");
-        charitySummary.attr("data-ein", searchResults[i].ein);
-        var charityName = $("<h2 class='text-center'>");
-        charityName.text(searchResults[i].name);
+	if (searchResults.length > 0) {
+		var heading = $("<h1>");
+		heading.html("Charities For You");
+		$("#charList").append(heading);
+	}
+	// console.log("In populate summary. Length: " + searchResults.length);
+	// console.log(searchResults);
+	for (var i = 0; i < searchResults.length; i++) {
+		// console.log("inside pop summary " + i);
+		var charityHREF = $("<a href='#'>")
+		var charitySummary = $("<div>");
+		charitySummary.attr("id", "charity-div");
+		charitySummary.attr("data-ein", searchResults[i].ein);
+		var charityName = $("<h2 class='text-center'>");
+		charityName.text(searchResults[i].name);
 
-        var charityRating = $("<img>")
-        charityRating.attr("src", searchResults[i].rating);
+		var charityRating = $("<img>")
+		charityRating.attr("src", searchResults[i].rating);
 
-        var charityCategory = $("<h3>");
-        charityCategory.text("Category: " + searchResults[i].category);
+		var charityCategory = $("<h3>");
+		charityCategory.text("Category: " + searchResults[i].category);
 
-        var charityCause = $("<h3>");
-        charityCause.text("Cause: " + searchResults[i].cause);
+		var charityCause = $("<h3>");
+		charityCause.text("Cause: " + searchResults[i].cause);
 
-        var charityTag = $("<h3>");
-        charityTag.text(searchResults[i].tagline);
+		var charityTag = $("<h3>");
+		charityTag.text(searchResults[i].tagline);
 
-        var charityAddress = $("<h3>");
-        charityAddress.html(searchResults[i].addressLine1 + "<br>" + searchResults[i].addressLine2);
+		var charityAddress = $("<h3>");
+		charityAddress.html(searchResults[i].addressLine1 + "<br>" + searchResults[i].addressLine2);
 
-        charitySummary.append(charityName);
-        newLine(charitySummary, 1);
-        charitySummary.append(charityRating);
-        newLine(charitySummary, 1);
-        charitySummary.append(charityCategory);
-        charitySummary.append(charityCause);
-        charitySummary.append(charityTag);
-        charitySummary.append(charityAddress);
-        charityHREF.append(charitySummary);
-        $("#charList").append(charityHREF);
-        newLine(charList, 2);
-    }
+		charitySummary.append(charityName);
+		newLine(charitySummary, 1);
+		charitySummary.append(charityRating);
+		newLine(charitySummary, 1);
+		charitySummary.append(charityCategory);
+		charitySummary.append(charityCause);
+		charitySummary.append(charityTag);
+		charitySummary.append(charityAddress);
+		charityHREF.append(charitySummary);
+		$("#charList").append(charityHREF);
+		newLine(charList, 2);
+	}
 }
 
 function newLine(divIdTag, numLines) {
@@ -366,110 +431,116 @@ function newLine(divIdTag, numLines) {
 }
 
 $(document).on("click", "#charity-div", function () {
-    var ein = $(this).attr("data-ein");
-    console.log(ein);
+	var ein = $(this).attr("data-ein");
+	console.log(ein);
 
-    queryURL = "https://api.data.charitynavigator.org/v2/Organizations/" + ein + "?app_id=09ceb587&app_key=a02d0e73a4f8e0d9c64bddca938d32ea";
+	queryURL = "https://api.data.charitynavigator.org/v2/Organizations/" + ein + "?app_id=" + charityAppId + "&app_key=" + charityApiKey;
 
-    console.log(queryURL);
+	console.log(queryURL);
 
-    $.ajax({
-        url: queryURL,
-        method: "GET"
-    }).then(function (response) {
-        // var results = response;
-        console.log(response);
-        // ========================
-        $("#charList").empty();
-        $("#charDisplay").empty();
+	$.ajax({
+		url: queryURL,
+		method: "GET"
+	}).then(function (response) {
+		// var results = response;
+		console.log(response);
+		// ========================
+		$("#charList").empty();
+		$("#charDisplay").empty();
 
-        var summaryArea = $("#charList");
-        var heading = $("<h1>");
-        heading.html(response.charityName);
-        $("#charList").append(heading);
+		var summaryArea = $("#charList");
+		var heading = $("<h1>");
+		heading.html(response.charityName);
+		$("#charList").append(heading);
 
-        newLine(summaryArea, 1);
+		newLine(summaryArea, 1);
 
-        var tagline = $("<h2 class='text-center'>");
-        tagline.html(response.tagLine);
-        $("#charList").append(tagline);
-        newLine(summaryArea, 2);
+		var tagline = $("<h2 class='text-center'>");
+		tagline.html(response.tagLine);
+		$("#charList").append(tagline);
+		newLine(summaryArea, 2);
 
-        var detailsDiv = $("<div>");
+		var detailsDiv = $("<div>");
 
-        var ratingImage = $("<img>");
-        ratingImage.attr("src", response.currentRating.ratingImage.large);
-        detailsDiv.append(ratingImage);
-        newLine(detailsDiv, 1);
+		var ratingImage = $("<img>");
+		ratingImage.attr("src", response.currentRating.ratingImage.large);
+		detailsDiv.append(ratingImage);
+		newLine(detailsDiv, 1);
 
-        var charityMission = $("<h3>");
-        charityMission.html(response.mission);
-        detailsDiv.append(charityMission);
-        newLine(detailsDiv, 1);
+		var charityMission = $("<h3>");
+		charityMission.html(response.mission);
+		detailsDiv.append(charityMission);
+		newLine(detailsDiv, 1);
 
-        var charityCategory = $("<h3>");
-        charityCategory.text("Category: " + response.category.categoryName);
-        detailsDiv.append(charityCategory);
-        newLine(detailsDiv, 1);
-
-
-        var charityCause = $("<h3>");
-        charityCause.text("Cause: " + response.cause.causeName);
-        detailsDiv.append(charityCause);
-        newLine(detailsDiv, 1);
+		var charityCategory = $("<h3>");
+		charityCategory.text("Category: " + response.category.categoryName);
+		detailsDiv.append(charityCategory);
+		newLine(detailsDiv, 1);
 
 
-        var charityIRS = $("<h3>");
-        charityIRS.html("IRS Classification: <br>" +
-            response.irsClassification.deductibility + " under " + response.irsClassification.subsection + "<br>" +
-            response.irsClassification.foundationStatus + "<br>"
-        );
-        detailsDiv.append(charityIRS);
-        newLine(detailsDiv, 1);
+		var charityCause = $("<h3>");
+		charityCause.text("Cause: " + response.cause.causeName);
+		detailsDiv.append(charityCause);
+		newLine(detailsDiv, 1);
 
 
-        var charityAddress = $("<h3>");
-        var stringAddress1 = "";
-
-        if (response.mailingAddress.streetAddress1 !== null) {
-            stringAddress1 += response.mailingAddress.streetAddress1;
-        }
-        if (response.mailingAddress.streetAddress2 !== null) {
-            stringAddress1 += ", ";
-            stringAddress1 += response.mailingAddress.streetAddress2;
-        }
-
-        charityAddress.html(stringAddress1 + "<br>" + response.mailingAddress.city + ", " + response.mailingAddress.stateOrProvince + " " + response.mailingAddress.postalCode);
-        detailsDiv.append(charityAddress);
-        newLine(detailsDiv, 2);
+		var charityIRS = $("<h3>");
+		charityIRS.html("IRS Classification: <br>" +
+			response.irsClassification.deductibility + " under " + response.irsClassification.subsection + "<br>" +
+			response.irsClassification.foundationStatus + "<br>"
+		);
+		detailsDiv.append(charityIRS);
+		newLine(detailsDiv, 1);
 
 
+		var charityAddress = $("<h3>");
+		var stringAddress1 = "";
 
-        var charityURL = $("<a>");
-        charityURL.attr("href", response.websiteURL);
-        charityURL.attr("target", "_blank");
-        charityURL.html("<h3>" + response.websiteURL + "</h3>");
-        detailsDiv.append(charityURL);
-        newLine(detailsDiv, 2);
+		if (response.mailingAddress.streetAddress1 !== null) {
+			stringAddress1 += response.mailingAddress.streetAddress1;
+		}
+		if (response.mailingAddress.streetAddress2 !== null) {
+			stringAddress1 += ", ";
+			stringAddress1 += response.mailingAddress.streetAddress2;
+		}
 
 
-        var charityDonateButton = $("<button class='btn btn-info btn-lg btn-block'>");
-        var charityDonateURL = $("<a>");
-        charityDonateURL.attr("href", "https://www.charitynavigator.org/index.cfm?bay=my.donations.makedonation&ein=" + ein + "&");
-        charityDonateURL.attr("target", "_blank");
-        charityDonateURL.html("<h3> Donate via Charity Navigator </h3>");
-        charityDonateButton.append(charityDonateURL);
-        charityDonateButton.addClass("cartoon-button");
-        detailsDiv.append(charityDonateButton);
-        newLine(detailsDiv, 1);
+		charityAddress.html(stringAddress1 + "<br>" + response.mailingAddress.city + ", " + response.mailingAddress.stateOrProvince + " " + response.mailingAddress.postalCode);
+		detailsDiv.append(charityAddress);
+		newLine(detailsDiv, 2);
 
-        $("#charList").append(detailsDiv);
+		charityAddressGlobal = stringAddress1 + ", " + response.mailingAddress.city + ", " + response.mailingAddress.stateOrProvince +
+			" " + response.mailingAddress.postalCode;
 
-        var backToSearchResults = $("<button class='btn btn-primary btn-lg btn-block'>");
-        backToSearchResults.attr("id", "search-results");
-        backToSearchResults.html("<h3> Back to Search Results </h3>");
-        $("#charDisplay").append(backToSearchResults);
-    });
+		charityAddressGlobal = charityAddressGlobal.replace(/ /g, "+");
+		console.log(charityAddressGlobal);
+		var charityURL = $("<a>");
+		charityURL.attr("href", response.websiteURL);
+		charityURL.attr("target", "_blank");
+		charityURL.html("<h3>" + response.websiteURL + "</h3>");
+		detailsDiv.append(charityURL);
+		newLine(detailsDiv, 2);
+
+
+		var charityDonateButton = $("<button class='btn btn-info btn-lg btn-block'>");
+		var charityDonateURL = $("<a>");
+		charityDonateURL.attr("href", "https://www.charitynavigator.org/index.cfm?bay=my.donations.makedonation&ein=" + ein + "&");
+		charityDonateURL.attr("target", "_blank");
+		charityDonateURL.html("<h3> Donate via Charity Navigator </h3>");
+		charityDonateButton.append(charityDonateURL);
+		charityDonateButton.addClass("cartoon-button");
+		detailsDiv.append(charityDonateButton);
+		newLine(detailsDiv, 1);
+
+		$("#charList").append(detailsDiv);
+
+		var backToSearchResults = $("<button class='btn btn-primary btn-lg btn-block'>");
+		backToSearchResults.attr("id", "search-results");
+		backToSearchResults.html("<h3> Back to Search Results </h3>");
+		$("#charDisplay").append(backToSearchResults);
+
+	});
+
 });
 
 $(document).on("click", "#search-results", function () {
