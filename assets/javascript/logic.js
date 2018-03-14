@@ -95,8 +95,8 @@ console.log(sunset);
 
 // var lati = 44.352;
 // var longi = -72.740;
-var charityAddressGlobal = "1600+Amphitheatre+Parkway,+Mountain+View,+CA";
-var queryUrlGoog = "https://www.google.com/maps/embed/v1/place?key=AIzaSyBXpzbfHI2sL1V4bFVuHsHG6omST-ujp-8&q="  + charityAddressGlobal;
+var charityAddressGlobal = "University+of+Utah,+Sandy+Center,+UT";
+var queryUrlGoog = "https://www.google.com/maps/embed/v1/place?key=AIzaSyBXpzbfHI2sL1V4bFVuHsHG6omST-ujp-8&q=" + charityAddressGlobal;
 
 
 // added variable for google search
@@ -138,13 +138,13 @@ var queryUrlGoog = "https://www.google.com/maps/embed/v1/place?key=AIzaSyBXpzbfH
 // 	});
 
 
-	// Create the search box and link it to the UI element.
-	// address id should be pac-input
-	// test to clear input
-	// var input = document.getElementById('pac-input');
+// Create the search box and link it to the UI element.
+// address id should be pac-input
+// test to clear input
+// var input = document.getElementById('pac-input');
 
-	// var input = $('<input value="84119" id="pac-input" class="controls" type="text" placeholder="Search Box">');
-	// console.log (input);
+// var input = $('<input value="84119" id="pac-input" class="controls" type="text" placeholder="Search Box">');
+// console.log (input);
 // 	var searchBox = new google.maps.places.SearchBox(input);
 // 	map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
@@ -262,14 +262,13 @@ $(document).on("click", "#charRadioZip", function () {
 });
 
 $(document).on("click", "#subInput", function () {
-
-
 	// console.log("Search button hit");
 	event.preventDefault();
+	var noErrors = true;
 	var newSearch = $("#charInput").val().trim();
 	newSearch = newSearch.replace(/ /g, "%20");
 
-	$("#googFrame").attr("src","https://www.google.com/maps/embed/v1/place?key=AIzaSyBXpzbfHI2sL1V4bFVuHsHG6omST-ujp-8&q=University+of+Utah+Sandy+Center+UT");
+	$("#googFrame").attr("src", "https://www.google.com/maps/embed/v1/place?key=AIzaSyBXpzbfHI2sL1V4bFVuHsHG6omST-ujp-8&q=University+of+Utah+Sandy+Center+UT");
 
 	var queryURL = "https://api.data.charitynavigator.org/v2/Organizations?app_id=" + charityAppId + "&app_key=" + charityApiKey + "&pageSize=20&search=" + newSearch + "&searchType=name_only&rated=true";
 	console.log(queryURL);
@@ -297,10 +296,29 @@ $(document).on("click", "#subInput", function () {
 				var charZip = $("#charLocZip").val().trim();
 				queryURL = queryURL + "&zip=" + charZip;
 				console.log(queryURL);
+				console.log(charZip.length);
+				if (charZip.length === 5) {
+					if( (isNaN(charZip.substr(0, 1))) ||
+							(isNaN(charZip.substr(1, 1))) ||
+							(isNaN(charZip.substr(2, 1))) ||
+							(isNaN(charZip.substr(3, 1)))	||
+							(isNaN(charZip.substr(4, 1)))
+						){
+							noErrors = false;
+						}
+				}else{
+					noErrors = false;
+				}
 			}
 		}
 	}
 
+	if(!noErrors){
+		$("#charDisplay").html("<h2>Invalid zip code. Please enter a 5 digit numeric zip");
+		$("#charList").empty();
+		localStorage.setItem("lsArray", JSON.stringify(searchResults));
+	}
+	
 	if ($("#categoryID :selected").val()) {
 		var charCategoryID = $("#categoryID :selected").val();
 		queryURL = queryURL + "&categoryID=" + charCategoryID;
@@ -314,62 +332,62 @@ $(document).on("click", "#subInput", function () {
 	// renderButtons();
 	$("#charInput").val("");
 
-
-
-	$.ajax({
-		url: queryURL,
-		method: "GET",
-		error: function (response) {
-			// console.log("Error response");
-			var results = response;
-			// console.log(results);
-			// console.log(results.status);
-			searchResults = [];
-			$("#charDisplay").html("<h2>" + results.responseJSON.errorMessage + "</h2>");
-			// console.log(results.responseJSON.errorMessage);
-			$("#charList").empty();
-			localStorage.setItem("lsArray", JSON.stringify(searchResults));
-		}
-	})
-		.then(function (response) {
-			var results = response;
-			console.log(results);
-			// ========================
-			$("#charList").empty();
-			$("#charDisplay").empty();
-
-			searchResults = [];
-			for (var i = 0; i < results.length; i++) {
-				var stringAddress1 = "";
-				if (results[i].mailingAddress.streetAddress1 !== null) {
-					stringAddress1 += results[i].mailingAddress.streetAddress1;
-				}
-				if (results[i].mailingAddress.streetAddress2 !== null) {
-					stringAddress1 += ", ";
-					stringAddress1 += results[i].mailingAddress.streetAddress2;
-				}
-
-				var stringAddress2 = results[i].mailingAddress.city + ", " + results[i].mailingAddress.stateOrProvince + " " + results[i].mailingAddress.postalCode;
-
-				var charitySummaryObject = {
-					ein: results[i].ein
-					, name: results[i].charityName
-					, rating: results[i].currentRating.ratingImage.large
-					, category: results[i].category.categoryName
-					, cause: results[i].cause.causeName
-					, tagline: results[i].tagLine
-					, addressLine1: stringAddress1
-					, addressLine2: stringAddress2
-				};
-
-				searchResults.push(charitySummaryObject);
-				// console.log(charitySummaryObject);
+	if (noErrors) {
+		$("#charLocZip").val("");
+		$.ajax({
+			url: queryURL,
+			method: "GET",
+			error: function (response) {
+				// console.log("Error response");
+				var results = response;
+				// console.log(results);
+				// console.log(results.status);
+				searchResults = [];
+				$("#charDisplay").html("<h2>" + results.responseJSON.errorMessage + "</h2>");
+				// console.log(results.responseJSON.errorMessage);
+				$("#charList").empty();
 				localStorage.setItem("lsArray", JSON.stringify(searchResults));
 			}
-			// console.log(searchResults);
-			populateSummary();
 		})
-		;
+			.then(function (response) {
+				var results = response;
+				console.log(results);
+				// ========================
+				$("#charList").empty();
+				$("#charDisplay").empty();
+
+				searchResults = [];
+				for (var i = 0; i < results.length; i++) {
+					var stringAddress1 = "";
+					if (results[i].mailingAddress.streetAddress1 !== null) {
+						stringAddress1 += results[i].mailingAddress.streetAddress1;
+					}
+					if (results[i].mailingAddress.streetAddress2 !== null) {
+						stringAddress1 += ", ";
+						stringAddress1 += results[i].mailingAddress.streetAddress2;
+					}
+
+					var stringAddress2 = results[i].mailingAddress.city + ", " + results[i].mailingAddress.stateOrProvince + " " + results[i].mailingAddress.postalCode;
+
+					var charitySummaryObject = {
+						ein: results[i].ein
+						, name: results[i].charityName
+						, rating: results[i].currentRating.ratingImage.large
+						, category: results[i].category.categoryName
+						, cause: results[i].cause.causeName
+						, tagline: results[i].tagLine
+						, addressLine1: stringAddress1
+						, addressLine2: stringAddress2
+					};
+
+					searchResults.push(charitySummaryObject);
+					// console.log(charitySummaryObject);
+					localStorage.setItem("lsArray", JSON.stringify(searchResults));
+				}
+				// console.log(searchResults);
+				populateSummary();
+			});
+	}
 
 });
 function populateSummary() {
@@ -512,10 +530,10 @@ $(document).on("click", "#charity-div", function () {
 
 		charityAddressGlobal = charityAddressGlobal.replace(/ /g, "+");
 		console.log(charityAddressGlobal);
-		queryUrlGoog = "https://www.google.com/maps/embed/v1/place?key=AIzaSyBXpzbfHI2sL1V4bFVuHsHG6omST-ujp-8&q="  + charityAddressGlobal;
+		queryUrlGoog = "https://www.google.com/maps/embed/v1/place?key=AIzaSyBXpzbfHI2sL1V4bFVuHsHG6omST-ujp-8&q=" + charityAddressGlobal;
 		console.log(queryUrlGoog);
-		$("#googFrame").attr("src",queryUrlGoog);
-		
+		$("#googFrame").attr("src", queryUrlGoog);
+
 		var charityURL = $("<a>");
 		charityURL.attr("href", response.websiteURL);
 		charityURL.attr("target", "_blank");
@@ -551,5 +569,5 @@ $(document).on("click", "#search-results", function () {
 	$("#charList").empty();
 	$("#charDisplay").empty();
 	populateSummary();
-	$("#googFrame").attr("src","https://www.google.com/maps/embed/v1/place?key=AIzaSyBXpzbfHI2sL1V4bFVuHsHG6omST-ujp-8&q=University+of+Utah+Sandy+Center+UT");
+	$("#googFrame").attr("src", "https://www.google.com/maps/embed/v1/place?key=AIzaSyBXpzbfHI2sL1V4bFVuHsHG6omST-ujp-8&q=University+of+Utah+Sandy+Center+UT");
 });
