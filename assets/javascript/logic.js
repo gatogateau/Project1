@@ -1,13 +1,12 @@
 // script for jarvis environmental group
-
-
+// Populate weather info based on location
 var browserLatitude = 0;
 var browserLongitude = 0;
 function getLocation() {
 	if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(showPosition);
 	} else {
-		console.log("Geolocation is not supported by this browser.");
+		// console.log("Geolocation is not supported by this browser.");
 	}
 }
 
@@ -15,8 +14,8 @@ function showPosition(position) {
 
 	browserLatitude = position.coords.latitude;
 	browserLongitude = position.coords.longitude;
-	console.log("lati " + browserLatitude);
-	console.log("long " + browserLongitude);
+	// console.log("lati " + browserLatitude);
+	// console.log("long " + browserLongitude);
 
 
 	// open weather map
@@ -28,7 +27,7 @@ function showPosition(position) {
 	var queryUrl = "http://api.openweathermap.org/data/2.5/weather?appid=" + appid + "&lat=" + browserLatitude + "&lon=" + browserLongitude;
 	// var appid = "e7518ef6cc901e2bd7fa37d2a513d300";
 
-	console.log(queryUrl);
+	// console.log(queryUrl);
 	// set up .ajax and pull response
 	$.ajax({
 		url: queryUrl,
@@ -74,7 +73,7 @@ var sunset = 0;
 function currenthour() {
 	var d = new Date();
 	var n = d.getHours();
-	console.log(n);
+	// console.log(n);
 	if (n < 7 || n > 19) {
 		sunset = "night";
 		document.getElementById("weather").style.backgroundImage = "url('assets/images/night.jpg')";
@@ -90,128 +89,19 @@ function currenthour() {
 	}
 }
 currenthour();
-console.log(sunset);
+// console.log(sunset);
 
 
-// var lati = 44.352;
-// var longi = -72.740;
-var charityAddressGlobal = "University+of+Utah,+Sandy+Center,+UT";
-var queryUrlGoog = "https://www.google.com/maps/embed/v1/place?key=AIzaSyBXpzbfHI2sL1V4bFVuHsHG6omST-ujp-8&q=" + charityAddressGlobal;
-
-
-// added variable for google search
-
-
-// function initAutocomplete() {
-
-
-// 	var longvalue = -111.894382;
-// 	var latvalue = 40.569312;
-
-// 	// new google api to get lat and long from address
-// 	// var queryUrlGoog = "https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyB9BOR1LsCivhFAucA6QVKYnPderodAq7E";
-
-
-
-// 	console.log(queryUrlGoog);
-// 	// set up .ajax and pull response
-// 	$.ajax({
-// 		url: queryUrlGoog,
-// 		method: "GET"
-// 	}).then(function (response) {
-
-// 		// verify all outputs
-// 		console.log("the latitude = " + response.results[0].geometry.location.lat);
-// 		console.log("the longitude = " + response.results[0].geometry.location.lng);
-// 		var lat = response.results[0].geometry.location.lat;
-// 		var lng = response.results[0].geometry.location.lng;
-// 		longvalue = lng;
-// 		latvalue = lat;
-
-// 		var map = new google.maps.Map(document.getElementById('map'), {
-// 			// center: { lat: 44.352, lng: -72.740 },
-// 			center: { lat: latvalue, lng: longvalue },
-// 			zoom: 8,
-// 			mapTypeId: 'roadmap'
-// 		});
-
-// 	});
-
-
-// Create the search box and link it to the UI element.
-// address id should be pac-input
-// test to clear input
-// var input = document.getElementById('pac-input');
-
-// var input = $('<input value="84119" id="pac-input" class="controls" type="text" placeholder="Search Box">');
-// console.log (input);
-// 	var searchBox = new google.maps.places.SearchBox(input);
-// 	map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
-// 	// Bias the SearchBox results towards current map's viewport.
-// 	map.addListener('bounds_changed', function () {
-// 		searchBox.setBounds(map.getBounds());
-// 	});
-
-// 	var markers = [];
-// 	// Listen for the event fired when the user selects a prediction and retrieve
-// 	// more details for that place.
-// 	searchBox.addListener('places_changed', function () {
-// 		var places = searchBox.getPlaces();
-
-// 		if (places.length == 0) {
-// 			return;
-// 		}
-
-// 		// Clear out the old markers.
-// 		markers.forEach(function (marker) {
-// 			marker.setMap(null);
-// 		});
-// 		markers = [];
-
-// 		// For each place, get the icon, name and location.
-// 		var bounds = new google.maps.LatLngBounds();
-// 		places.forEach(function (place) {
-// 			if (!place.geometry) {
-// 				console.log("Returned place contains no geometry");
-// 				return;
-// 			}
-// 			var icon = {
-// 				url: place.icon,
-// 				size: new google.maps.Size(71, 71),
-// 				origin: new google.maps.Point(0, 0),
-// 				anchor: new google.maps.Point(17, 34),
-// 				scaledSize: new google.maps.Size(25, 25)
-// 			};
-
-// 			// Create a marker for each place.
-// 			markers.push(new google.maps.Marker({
-// 				map: map,
-// 				icon: icon,
-// 				title: place.name,
-// 				position: place.geometry.location
-// 			}));
-
-// 			if (place.geometry.viewport) {
-// 				// Only geocodes have viewport.
-// 				bounds.union(place.geometry.viewport);
-// 			} else {
-// 				bounds.extend(place.geometry.location);
-// 			}
-// 		});
-// 		map.fitBounds(bounds);
-// 	});
-
-// }
-
-// set image for weather description
 // Code from Manju goes here
 
+var charityAddressGlobal = "University+of+Utah,+Sandy+Center,+UT";
+var queryUrlGoog = "https://www.google.com/maps/embed/v1/place?key=AIzaSyBXpzbfHI2sL1V4bFVuHsHG6omST-ujp-8&q=" + charityAddressGlobal;
 var searchResults = [];
 var charityAppId = "";
 var charityApiKey = "";
 // var charityAddressGlobal = "";
 
+// Firebase config (for getting API key and app id stored in Firebase)
 var config = {
 	apiKey: "AIzaSyDI4LjuGplq3orXgSY25y8QJntcnOPlNbo",
 	authDomain: "jarvis-in-class.firebaseapp.com",
@@ -226,12 +116,15 @@ firebase.initializeApp(config);
 // Create a variable to reference the database.
 var database = firebase.database();
 
+// House keeping on page load/reload
 window.onload = function () {
 
 	database.ref().on("value", function (childSnapshot) {
 
 		// console.log(childSnapshot.val());
 		// console.log(childSnapshot.val().charityAppId, childSnapshot.val().charityApiKey);
+
+		// Get API key and app ID from firebase
 		charityAppId = childSnapshot.val().charityAppId;
 		charityApiKey = childSnapshot.val().charityApiKey;
 		// console.log(childSnapshot.val().charityAppId, childSnapshot.val().charityApiKey);
@@ -245,6 +138,7 @@ window.onload = function () {
 
 };
 
+// Option to flip between Location and Zip code input
 $(document).on("click", "#charRadioLoc", function () {
 	// console.log("Radio button selected for location");
 	$("#charLocZip").attr("disabled", "true");
@@ -261,6 +155,7 @@ $(document).on("click", "#charRadioZip", function () {
 	$("#charLocCity").val("");
 });
 
+// Function for submit button - on click
 $(document).on("click", "#subInput", function () {
 	// console.log("Search button hit");
 	event.preventDefault();
@@ -271,32 +166,32 @@ $(document).on("click", "#subInput", function () {
 	$("#googFrame").attr("src", "https://www.google.com/maps/embed/v1/place?key=AIzaSyBXpzbfHI2sL1V4bFVuHsHG6omST-ujp-8&q=University+of+Utah+Sandy+Center+UT");
 
 	var queryURL = "https://api.data.charitynavigator.org/v2/Organizations?app_id=" + charityAppId + "&app_key=" + charityApiKey + "&pageSize=20&search=" + newSearch + "&searchType=name_only&rated=true";
-	console.log(queryURL);
+	// console.log(queryURL);
 	// &categoryID=&causeID=
 	var radioValue = $('input[name=location]:checked').val();
-	console.log(radioValue);
+	// console.log(radioValue);
 
 	if (radioValue === "state") {
-		console.log($("#charLocCity").val().trim());
+		// console.log($("#charLocCity").val().trim());
 		if ($("#charLocCity").val()) {
 			var charCity = $("#charLocCity").val().trim();
 			charCity = charCity.replace(/ /g, "%20");
 			queryURL = queryURL + "&city=" + charCity;
-			console.log(queryURL);
+			// console.log(queryURL);
 		}
 		if ($("#charLocState :selected").val()) {
 			var charState = $("#charLocState :selected").val();
 			queryURL = queryURL + "&state=" + charState;
-			console.log(queryURL);
+			// console.log(queryURL);
 		}
 	} else {
 		if (radioValue === "zip") {
-			console.log($("#charLocZip").val().trim());
+			// console.log($("#charLocZip").val().trim());
 			if ($("#charLocZip").val()) {
 				var charZip = $("#charLocZip").val().trim();
 				queryURL = queryURL + "&zip=" + charZip;
-				console.log(queryURL);
-				console.log(charZip.length);
+				// console.log(queryURL);
+				// console.log(charZip.length);
 				if (charZip.length === 5) {
 					if( (isNaN(charZip.substr(0, 1))) ||
 							(isNaN(charZip.substr(1, 1))) ||
@@ -322,11 +217,11 @@ $(document).on("click", "#subInput", function () {
 	if ($("#categoryID :selected").val()) {
 		var charCategoryID = $("#categoryID :selected").val();
 		queryURL = queryURL + "&categoryID=" + charCategoryID;
-		console.log(queryURL);
+		// console.log(queryURL);
 	}
 
-	console.log("Category: " + $("#categoryID :selected").val());
-	console.log("State: " + $("#charLocState :selected").val());
+	// console.log("Category: " + $("#categoryID :selected").val());
+	// console.log("State: " + $("#charLocState :selected").val());
 	// console.log("Searching for " + newSearch);
 	// cartoons.push(newCartoon);
 	// renderButtons();
@@ -351,7 +246,7 @@ $(document).on("click", "#subInput", function () {
 		})
 			.then(function (response) {
 				var results = response;
-				console.log(results);
+				// console.log(results);
 				// ========================
 				$("#charList").empty();
 				$("#charDisplay").empty();
@@ -448,18 +343,18 @@ function newLine(divIdTag, numLines) {
 
 $(document).on("click", "#charity-div", function () {
 	var ein = $(this).attr("data-ein");
-	console.log(ein);
+	// console.log(ein);
 
 	queryURL = "https://api.data.charitynavigator.org/v2/Organizations/" + ein + "?app_id=" + charityAppId + "&app_key=" + charityApiKey;
 
-	console.log(queryURL);
+	// console.log(queryURL);
 
 	$.ajax({
 		url: queryURL,
 		method: "GET"
 	}).then(function (response) {
 		// var results = response;
-		console.log(response);
+		// console.log(response);
 		// ========================
 		$("#charList").empty();
 		$("#charDisplay").empty();
@@ -529,9 +424,9 @@ $(document).on("click", "#charity-div", function () {
 			" " + response.mailingAddress.postalCode;
 
 		charityAddressGlobal = charityAddressGlobal.replace(/ /g, "+");
-		console.log(charityAddressGlobal);
+		// console.log(charityAddressGlobal);
 		queryUrlGoog = "https://www.google.com/maps/embed/v1/place?key=AIzaSyBXpzbfHI2sL1V4bFVuHsHG6omST-ujp-8&q=" + charityAddressGlobal;
-		console.log(queryUrlGoog);
+		// console.log(queryUrlGoog);
 		$("#googFrame").attr("src", queryUrlGoog);
 
 		var charityURL = $("<a>");
@@ -565,7 +460,7 @@ $(document).on("click", "#charity-div", function () {
 
 $(document).on("click", "#search-results", function () {
 	searchResults = JSON.parse(localStorage.getItem("lsArray"));
-	console.log(searchResults);
+	// console.log(searchResults);
 	$("#charList").empty();
 	$("#charDisplay").empty();
 	populateSummary();
