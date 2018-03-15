@@ -24,7 +24,7 @@ function showPosition(position) {
 	var appid = "e7518ef6cc901e2bd7fa37d2a513d300";
 
 	// api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}
-	var queryUrl = "http://api.openweathermap.org/data/2.5/weather?appid=" + appid + "&lat=" + browserLatitude + "&lon=" + browserLongitude;
+	var queryUrl = "https://api.openweathermap.org/data/2.5/weather?appid=" + appid + "&lat=" + browserLatitude + "&lon=" + browserLongitude;
 	// var appid = "e7518ef6cc901e2bd7fa37d2a513d300";
 
 	// console.log(queryUrl);
